@@ -163,8 +163,19 @@ flowchart LR
 > [!CAUTION]
 > Use somente em sistemas próprios ou com **autorização explícita**. Não publique credenciais, tokens, listas privadas de alvos, relatórios de clientes ou dados pessoais. Não exponha `8001` e `11434` à internet. A descoberta de um domínio ou IP **não** concede permissão para testá-lo.
 
+## 🩺 Diagnóstico e recuperação
+
+Se o chat não responder, uma ferramenta não iniciar ou surgir um erro de dependência, use a **[Central de documentação](docs/README.md)**.
+
+| Precisa de ajuda com... | Consulte |
+| :-- | :-- |
+| Verificar Python, portas, Ollama e ferramentas | [Checklist de diagnóstico](docs/CHECKLIST-DIAGNOSTICO.md) |
+| Corrigir erros conhecidos passo a passo | [Solução de problemas — ERR-001 a ERR-014](docs/SOLUCAO-DE-PROBLEMAS.md) |
+| Padronizar mensagens, logs e recuperação no código | [Tratamento de erros e observabilidade](docs/TRATAMENTO-DE-ERROS.md) |
+
 ## 📚 Documentação
 
+- **[Central de documentação](docs/README.md)**
 - [Kali Linux no VirtualBox](docs/INSTALACAO-KALI-VM.md)
 - [Windows 11 com WSL2](docs/INSTALACAO-WINDOWS.md)
 - [Ubuntu e Debian](docs/INSTALACAO-LINUX.md)
