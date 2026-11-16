@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from fastapi.responses import HTMLResponse, RedirectResponse
 
-app = FastAPI(title='LinuxSec Web Pentest Copilot', version='0.1.0')
+app = FastAPI(title='Nexora Security', version='0.1.0')
 @app.get("/", include_in_schema=False)
 def index():
     return RedirectResponse(url="/chat", status_code=307)
@@ -26,7 +26,7 @@ def redact(s):
 
 @app.get('/analyzer', response_class=HTMLResponse)
 def home():
-    return '''<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LinuxSec AI</title><style>body{background:#0b1220;color:#e6f7f7;font:16px system-ui;max-width:1000px;margin:30px auto;padding:16px}h1{color:#00d9d0}textarea{width:100%;box-sizing:border-box;background:#142a3b;color:white;border:1px solid #456;padding:12px;border-radius:8px}button{background:#35e4a0;border:0;padding:12px 20px;border-radius:8px;font-weight:bold;cursor:pointer}pre{white-space:pre-wrap;background:#142a3b;padding:16px;border-radius:8px}</style><h1>LinuxSec AI — Web Pentest Copilot</h1><p>Análise passiva de HTTP para laboratórios autorizados. Remova segredos antes de colar.</p><label>Requisição HTTP</label><textarea id="req" rows="9" placeholder="GET / HTTP/1.1&#10;Host: lab.local"></textarea><p>Resposta HTTP</p><textarea id="res" rows="9" placeholder="HTTP/1.1 200 OK"></textarea><p><label><input id="ai" type="checkbox"> Consultar Ollama local (opcional)</label></p><button onclick="analyze()">Analisar</button><pre id="out">Aguardando análise...</pre><script>async function analyze(){const out=document.getElementById('out');out.textContent='Analisando...';try{const r=await fetch('/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({request:document.getElementById('req').value,response:document.getElementById('res').value,use_ai:document.getElementById('ai').checked})});out.textContent=JSON.stringify(await r.json(),null,2)}catch(e){out.textContent=String(e)}}</script></html>'''
+    return '''<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nexora Security</title><style>body{background:#0b1220;color:#e6f7f7;font:16px system-ui;max-width:1000px;margin:30px auto;padding:16px}h1{color:#00d9d0}textarea{width:100%;box-sizing:border-box;background:#142a3b;color:white;border:1px solid #456;padding:12px;border-radius:8px}button{background:#35e4a0;border:0;padding:12px 20px;border-radius:8px;font-weight:bold;cursor:pointer}pre{white-space:pre-wrap;background:#142a3b;padding:16px;border-radius:8px}</style><h1>Nexora Security — Web Pentest Copilot</h1><p>Análise passiva de HTTP para laboratórios autorizados. Remova segredos antes de colar.</p><label>Requisição HTTP</label><textarea id="req" rows="9" placeholder="GET / HTTP/1.1&#10;Host: lab.local"></textarea><p>Resposta HTTP</p><textarea id="res" rows="9" placeholder="HTTP/1.1 200 OK"></textarea><p><label><input id="ai" type="checkbox"> Consultar Ollama local (opcional)</label></p><button onclick="analyze()">Analisar</button><pre id="out">Aguardando análise...</pre><script>async function analyze(){const out=document.getElementById('out');out.textContent='Analisando...';try{const r=await fetch('/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({request:document.getElementById('req').value,response:document.getElementById('res').value,use_ai:document.getElementById('ai').checked})});out.textContent=JSON.stringify(await r.json(),null,2)}catch(e){out.textContent=String(e)}}</script></html>'''
 
 @app.post('/analyze')
 def analyze(body: Analysis):
@@ -74,7 +74,7 @@ from nexora.web.dashboard import router as dashboard_router
 
 app.include_router(dashboard_router)
 
-# LinuxSec Security Chat v5 integration
+# Nexora Security Chat v5 integration
 from nexora.api.security_chat import router as security_chat_router
 from nexora.web.chat_page import router as chat_page_router
 app.include_router(security_chat_router)
@@ -83,9 +83,9 @@ app.include_router(chat_page_router)
 from nexora.api.grep_engine import router as grep_router
 app.include_router(grep_router)
 
-# LinuxSec Tool Registry v1
+# Nexora Tool Registry v1
 from nexora.core.tool_registry import router as registry_router
 app.include_router(registry_router)
-# LinuxSec read-only Ollama conversational chat
+# Nexora read-only Ollama conversational chat
 from nexora.api.chat_assistant import router as chat_assistant_router
 app.include_router(chat_assistant_router)
