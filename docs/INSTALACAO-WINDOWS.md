@@ -73,7 +73,8 @@ No primeiro terminal:
 ```bash
 ollama pull llama3.2
 cd ~/nexora-security
-ollama create linuxsec-ai -f Modelfile
+# Opcional: execute somente se o projeto incluir um Modelfile
+# ollama create nexora-ai -f Modelfile
 bash scripts/start.sh
 ```
 
