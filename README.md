@@ -22,9 +22,7 @@
 ---
 
 > [!IMPORTANT]
-> **Versão atual do repositório: v0.1.0-alpha (documentação).** Futuras atualizações estão planejadas; ainda não existe uma release instalável validada. Consulte o [histórico de versões e roadmap](docs/VERSOES-E-ROADMAP.md).
->
-> **Publicação em andamento.** Este repositório contém a documentação inicial, mas **ainda não inclui o código-fonte completo nem os scripts de instalação**. Os procedimentos abaixo são uma referência para quando esses arquivos forem publicados e validados. O projeto é um protótipo local, não um serviço pronto para produção.
+> **Estado atual: v0.1.0-alpha — pré-lançamento.** O código principal do aplicativo já está publicado, mas **não há release estável ou instalação limpa validada**. Alguns scripts de instalação documentados ainda não estão disponíveis. Consulte [versões e roadmap](docs/VERSOES-E-ROADMAP.md).
 
 ## ✦ Visão geral
 
@@ -105,18 +103,19 @@ Escolha o ambiente:
 | 🧰 Ferramentas de reconhecimento | **[Instalar e aprender a usar](docs/FERRAMENTAS.md)** | Linux, Kali e Windows/WSL2 |
 
 <details>
-<summary><strong>▶ Prévia dos comandos de inicialização (após publicação do código)</strong></summary>
+<summary><strong>▶ Inicialização local (conforme os arquivos disponíveis)</strong></summary>
 
 ```bash
-# Na pasta raiz do projeto completo:
-bash scripts/install-linux.sh
-bash scripts/check.sh
-bash scripts/start.sh
+# Na pasta raiz do projeto:
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m uvicorn main:app --host 127.0.0.1 --port 8001
 ```
 
 Abra **http://127.0.0.1:8001/chat**.
 
-> Estes scripts ainda não estão disponíveis no repositório. Não tente executá-los antes de conferir os arquivos publicados.
+> O código principal foi publicado, mas a instalação ainda não foi validada em ambiente limpo. Configure e inicie o Ollama separadamente, conforme o guia. Não execute scripts que não estejam presentes no repositório.
 
 </details>
 
@@ -132,7 +131,7 @@ ollama run llama3.2 "Responda: NEXORA OK"
 curl -fsS http://127.0.0.1:11434/api/tags
 ```
 
-Para usar o modelo personalizado `nexora-ai`, será necessário o `Modelfile` do projeto completo.
+Para usar um modelo personalizado, verifique o `Modelfile` publicado e o nome efetivo do modelo instalado no Ollama. A configuração pode variar entre instalações.
 
 </details>
 
@@ -153,13 +152,14 @@ flowchart LR
 
 ## 🗺️ Roadmap
 
-**Versão atual:** `v0.1.0-alpha` — etapa de documentação. **Próximas versões planejadas:** `v0.2.0-alpha` (código e scripts), `v0.3.0-beta` (validação das integrações), `v0.4.0-beta` (diagnóstico e testes) e `v1.0.0` (estável). [Ver planejamento completo](docs/VERSOES-E-ROADMAP.md).
+**Versão atual:** `v0.1.0-alpha` — código principal e documentação publicados, sem release estável validada. **Próximas versões planejadas:** `v0.2.0-alpha` (código e scripts), `v0.3.0-beta` (validação das integrações), `v0.4.0-beta` (diagnóstico e testes) e `v1.0.0` (estável). [Ver planejamento completo](docs/VERSOES-E-ROADMAP.md).
 
 
 - [x] Criar repositório privado e documentação inicial
 - [x] Documentar instalação em Kali, Ubuntu e Windows/WSL2
 - [x] Documentar integração do Ollama
-- [ ] Publicar código-fonte revisado e scripts de instalação
+- [x] Publicar código-fonte principal
+- [ ] Publicar e validar scripts de instalação
 - [ ] Verificar ausência de segredos e dados sensíveis
 - [ ] Validar instalação limpa no Kali e no Ubuntu/WSL2
 - [ ] Adicionar capturas reais da interface
@@ -182,19 +182,13 @@ Se o chat não responder, uma ferramenta não iniciar ou surgir um erro de depen
 
 ## 📚 Documentação
 
-- **[Central de documentação](docs/README.md)**
-- **[Versão atual e próximas atualizações](docs/VERSOES-E-ROADMAP.md)**
-- [Kali Linux no VirtualBox](docs/INSTALACAO-KALI-VM.md)
-- [Windows 11 com WSL2](docs/INSTALACAO-WINDOWS.md)
-- [Ubuntu e Debian](docs/INSTALACAO-LINUX.md)
-- [Configuração completa do Ollama](docs/CONFIGURAR-OLLAMA.md)
-- **[Ferramentas: instalação e exemplos de uso](docs/FERRAMENTAS.md)**
+A documentação está organizada por categorias na **[Central de documentação](docs/README.md)**:
 
-### Índice de leitura recomendado
-
-1. **[Instalação do sistema](docs/INSTALACAO-LINUX.md)** — escolha Ubuntu/Debian, [Kali](docs/INSTALACAO-KALI-VM.md) ou [Windows/WSL2](docs/INSTALACAO-WINDOWS.md).
-2. **[Configuração da IA local](docs/CONFIGURAR-OLLAMA.md)** — instale Ollama, escolha o modelo e teste o chat.
-3. **[Ferramentas de reconhecimento](docs/FERRAMENTAS.md)** — instale, confira versões e pratique em laboratório próprio.
+- **Projeto e versões:** [Roadmap](docs/VERSOES-E-ROADMAP.md) e [licença](LICENSE).
+- **Instalação:** [Linux](docs/INSTALACAO-LINUX.md), [Kali/VirtualBox](docs/INSTALACAO-KALI-VM.md) e [Windows/WSL2](docs/INSTALACAO-WINDOWS.md).
+- **Configuração e ferramentas:** [Ollama](docs/CONFIGURAR-OLLAMA.md) e [reconhecimento](docs/FERRAMENTAS.md).
+- **Suporte:** [Checklist](docs/CHECKLIST-DIAGNOSTICO.md), [solução de problemas](docs/SOLUCAO-DE-PROBLEMAS.md) e [tratamento de erros (proposta)](docs/TRATAMENTO-DE-ERROS.md).
+- **Arquitetura futura:** [Autenticação e licenças offline](docs/ARQUITETURA-AUTENTICACAO-LICENCAS.md) — ainda não implementadas.
 
 ## 📄 Licença
 
