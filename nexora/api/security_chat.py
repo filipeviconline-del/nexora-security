@@ -1,4 +1,4 @@
-"""LinuxSec Security Chat v5: approved, bounded tool orchestration."""
+"""Nexora Security Chat v5: approved, bounded tool orchestration."""
 import ipaddress
 import json
 import os
