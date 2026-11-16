@@ -6,6 +6,7 @@
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=20&duration=3200&pause=900&color=00D9D0&center=true&vCenter=true&width=750&lines=Observe.+Analise.+Documente.;Reconhecimento+com+escopo+autorizado;FastAPI+%2B+Ollama+%2B+Linux;Sua+IA+local.+Seu+controle.)](https://git.io/typing-svg)
 
+![Licença](https://img.shields.io/badge/LICEN%C3%87A-PROPRIET%C3%81RIA_RESTRITA-F15B65?style=for-the-badge)
 ![Versão](https://img.shields.io/badge/VERS%C3%83O-v0.1.0--alpha-00D9D0?style=for-the-badge)
 ![Status](https://img.shields.io/badge/STATUS-PR%C3%89--LAN%C3%87AMENTO-FFB454?style=for-the-badge)
 ![Python](https://img.shields.io/badge/PYTHON-FASTAPI-142A3B?style=for-the-badge&logo=python&logoColor=00D9D0)
@@ -197,7 +198,9 @@ Se o chat não responder, uma ferramenta não iniciar ou surgir um erro de depen
 
 ## 📄 Licença
 
-**Ainda não definida.** Até que uma licença seja publicada, não presuma autorização de redistribuição ou reutilização do código.
+**Licença proprietária de uso restrito.** O uso, a execução, a cópia, a modificação, a redistribuição e a exploração comercial do Nexora Security dependem de **autorização prévia e expressa por escrito** do titular dos direitos, ressalvados os direitos legalmente assegurados. O acesso ao repositório não concede uma licença de uso.
+
+Leia os termos completos em **[LICENSE](LICENSE)**. Componentes de terceiros continuam sujeitos às suas próprias licenças.
 
 ---
 
