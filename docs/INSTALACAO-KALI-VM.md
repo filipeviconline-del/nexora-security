@@ -1,92 +1,98 @@
 # Instalação do Nexora Security no Kali Linux — VirtualBox
 
-Este guia cobre a criação da VM, instalação do sistema, dependências, execução do Nexora e configuração da IA. **Estado atual:** o repositório contém documentação inicial; o código-fonte e scripts de instalação ainda não foram publicados integralmente. Não execute comandos que dependam de arquivos ausentes.
+Este guia usa a **estrutura atual** do código no GitHub. Não requer scripts de instalação ausentes. A execução dentro de VM depende dos recursos do computador hospedeiro.
 
-## 1. Preparar o VirtualBox
+## 1. Preparar a máquina virtual
 
-1. Baixe o [VirtualBox](https://www.virtualbox.org/) no computador principal.
-2. Baixe uma imagem oficial em [Kali Linux Downloads](https://www.kali.org/get-kali/), preferencialmente a imagem pronta para VirtualBox.
-3. Importe a VM, defina usuário/senha e inicie o Kali.
-4. Se o computador permitir, configure **4 vCPUs, 8 GB RAM e 50 GB de disco**. Para um modelo local 3B, menos RAM pode prejudicar bastante o desempenho.
-5. Escolha **rede NAT** para o primeiro teste. Não utilize bridge nem redirecione portas para a internet.
-6. Após atualizar o sistema, crie um **snapshot** chamado `kali-limpo`.
+1. Baixe o VirtualBox no [site oficial](https://www.virtualbox.org/) e a imagem do Kali em [kali.org](https://www.kali.org/get-kali/).
+2. Importe a VM e inicie o Kali.
+3. Se possível, aloque 4 vCPUs, 8 GB de RAM e 50 GB de disco; modelos de IA podem exigir mais.
+4. Use **rede NAT** para o primeiro teste. Não exponha portas do FastAPI ou Ollama.
+5. Crie um snapshot antes de instalar novas ferramentas.
 
 ## 2. Preparar o Kali
 
-Abra o terminal da VM:
+Execute **dentro do terminal da VM**:
 
 ```bash
 sudo apt update
-sudo apt upgrade -y
-sudo apt install -y git curl ca-certificates python3 python3-venv python3-pip unzip nmap whatweb dnsutils whois
-python3 --version
-git --version
+sudo apt install -y git curl ca-certificates python3 python3-venv python3-pip nmap whatweb dnsutils whois
 ```
 
-## 3. Baixar o Nexora
-
-O repositório está **privado**: faça login no GitHub com sua conta autorizada. Quando o código completo estiver publicado:
+## 3. Clonar o Nexora
 
 ```bash
 cd ~
 git clone https://github.com/filipeviconline-del/nexora-security.git
 cd nexora-security
-ls -la
+ls main.py requirements.txt
+ls nexora/api nexora/core nexora/recon nexora/web
 ```
 
-Confirme a presença de `main.py`, `requirements.txt` e `scripts/install-linux.sh`. Se faltarem, **pare aqui**: a publicação do código ainda não terminou.
+Se já tiver um clone sem alterações locais, use `git pull --ff-only origin main` dentro dele.
 
-## 4. Instalação básica
+## 4. Instalar as dependências Python
 
 ```bash
-bash scripts/install-linux.sh
-bash scripts/check.sh
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pip check
+python -m compileall -q main.py nexora
+python -c "from main import app; print('NEXORA: IMPORTAÇÃO OK'); print('Rotas:', len(app.routes))"
 ```
 
-O instalador prepara o Python e dependências básicas. Ferramentas Go e Ollama são opcionais e devem ser instalados separadamente.
+O pacote **dnspython** já está declarado no `requirements.txt`. Se `import dns` falhar, confirme que está usando o Python do `.venv`.
 
-## 5. Ollama e chat
+## 5. Configurar Ollama na própria VM
 
-Siga o guia [CONFIGURAR-OLLAMA.md](CONFIGURAR-OLLAMA.md). Resumo:
+Siga [CONFIGURAR-OLLAMA.md](CONFIGURAR-OLLAMA.md) para instalar Ollama da fonte oficial. Depois:
 
 ```bash
-# Depois de instalar e iniciar o Ollama:
 ollama pull llama3.2
-# Opcional: execute somente se o projeto incluir um Modelfile
-# ollama create nexora-ai -f Modelfile
 ollama list
+curl -fsS http://127.0.0.1:11434/api/tags
 ```
 
-Inicie o Nexora:
+Se o serviço não estiver ativo, verifique `sudo systemctl status ollama`. Em ambientes sem serviço configurado, use `ollama serve` em um segundo terminal. Não execute dois servidores na mesma porta.
 
-```bash
-bash scripts/start.sh
-```
+**Atenção:** o modelo padrão de alguns módulos internos ainda é `linuxsec-ai`. O comando de inicialização abaixo define `llama3.2` explicitamente para evitar falhas.
 
-Abra na VM: **http://127.0.0.1:8001/chat**. Clique em **Conversar com IA** e faça uma pergunta conceitual para confirmar que a IA responde.
-
-## 6. Testes
-
-Em outro terminal:
+## 6. Iniciar o aplicativo
 
 ```bash
 cd ~/nexora-security
-bash scripts/check.sh
-curl -fsS http://127.0.0.1:11434/api/tags
-curl -fsS -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8001/chat
+source .venv/bin/activate
+export PATH="$HOME/go/bin:$PATH"
+export OLLAMA_MODEL=llama3.2
+python -m uvicorn main:app --host 127.0.0.1 --port 8001
 ```
 
-O primeiro comando verifica o ambiente; o segundo testa o Ollama; o terceiro testa o FastAPI.
+No navegador **dentro do Kali**, acesse:
 
-## 7. Problemas comuns
+- Chat: http://127.0.0.1:8001/chat
+- Dashboard: http://127.0.0.1:8001/dashboard
 
-- **VM lenta:** reduza outros programas abertos, aumente RAM/CPU ou teste modelo menor.
-- **Ollama não responde:** verifique `systemctl status ollama` ou inicie `ollama serve` em terminal separado.
-- **Modelo não encontrado:** execute `ollama list` e ajuste `OLLAMA_MODEL`.
-- **Git clone solicita autenticação:** o repositório é privado; configure Git Credential Manager, GitHub CLI ou chave SSH.
-- **Arquivos/scripts ausentes:** a publicação do código ainda está pendente.
-- **Sem acesso do computador principal:** a interface está limitada ao loopback da VM por segurança. Não exponha portas para contornar isso; configure um acesso autenticado, por exemplo túnel SSH, quando necessário.
+O navegador do computador hospedeiro não acessará automaticamente o `127.0.0.1` da VM: são ambientes diferentes. Para o primeiro teste, use o navegador da VM.
+
+## 7. Verificar e solucionar
+
+Em outro terminal da VM:
+
+```bash
+curl -fsS -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8001/chat
+curl -fsS http://127.0.0.1:11434/api/tags
+```
+
+- **Erro `No module named dns`**: ative `.venv` e reinstale `requirements.txt`.
+- **Ollama não responde**: confira serviço e `ollama list`.
+- **VM lenta**: verifique RAM, CPU e disponibilidade de disco; considere um modelo menor.
+- **Mouse/teclado do VirtualBox**: confira integração do ponteiro e Guest Additions conforme versão do VirtualBox.
+- **Porta 8001 ocupada**: encerre instância anterior ou use `--port 8002`.
+
+Consulte [Solução de problemas](SOLUCAO-DE-PROBLEMAS.md).
 
 ## 8. Segurança
 
-Execute somente em alvos expressamente autorizados. Mantenha a VM em NAT, a aplicação em `127.0.0.1` e as portas 8001/11434 não expostas. Faça snapshot antes de instalar ferramentas extras.
+Mantenha rede NAT e `--host 127.0.0.1`. A aplicação não implementa autenticação de usuários nesta versão. Faça reconhecimento apenas em ativos com autorização explícita.
