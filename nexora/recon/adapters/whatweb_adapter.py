@@ -3,7 +3,7 @@ from pathlib import Path
 import os
 import subprocess
 
-from tool_registry import candidates, probe
+from nexora.core.tool_registry import candidates, probe
 
 
 def run_whatweb(host, entry, approved_ip, safe_web_target):

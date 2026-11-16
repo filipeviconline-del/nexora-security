@@ -67,25 +67,25 @@ def analyze(body: Analysis):
         except Exception as exc:
             result['erro_ia']='Ollama indisponível ou modelo não instalado: '+type(exc).__name__
     return result
-from nmap_engine import router as nmap_router
+from nexora.api.nmap_engine import router as nmap_router
 
 app.include_router(nmap_router)
-from dashboard import router as dashboard_router
+from nexora.web.dashboard import router as dashboard_router
 
 app.include_router(dashboard_router)
 
 # LinuxSec Security Chat v5 integration
-from security_chat import router as security_chat_router
-from chat_page import router as chat_page_router
+from nexora.api.security_chat import router as security_chat_router
+from nexora.web.chat_page import router as chat_page_router
 app.include_router(security_chat_router)
 app.include_router(chat_page_router)
 
-from grep_engine import router as grep_router
+from nexora.api.grep_engine import router as grep_router
 app.include_router(grep_router)
 
 # LinuxSec Tool Registry v1
-from tool_registry import router as registry_router
+from nexora.core.tool_registry import router as registry_router
 app.include_router(registry_router)
 # LinuxSec read-only Ollama conversational chat
-from chat_assistant import router as chat_assistant_router
+from nexora.api.chat_assistant import router as chat_assistant_router
 app.include_router(chat_assistant_router)

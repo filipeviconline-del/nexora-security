@@ -4,7 +4,7 @@ import subprocess
 import threading
 import time
 from datetime import datetime, timezone
-from tool_registry import candidates, probe
+from nexora.core.tool_registry import candidates, probe
 
 _LOCK = threading.Lock()
 _LAST = {}

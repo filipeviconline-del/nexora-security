@@ -9,7 +9,7 @@ import dns.resolver
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from nmap_engine import LOCK, read_targets, normalize_host
+from nexora.api.nmap_engine import LOCK, read_targets, normalize_host
 
 router = APIRouter(prefix='/tools', tags=['DNS Recon'])
 TYPES = ('A', 'AAAA', 'MX', 'NS', 'TXT', 'CNAME')

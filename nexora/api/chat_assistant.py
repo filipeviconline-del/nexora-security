@@ -6,8 +6,8 @@ import urllib.error
 import urllib.request
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
-from tool_registry import registry
-from security_chat import ALLOWED
+from nexora.core.tool_registry import registry
+from nexora.api.security_chat import ALLOWED
 
 router = APIRouter(prefix='/tools/chat', tags=['Conversar com IA'])
 

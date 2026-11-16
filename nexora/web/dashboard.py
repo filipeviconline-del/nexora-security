@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
-from dns_recon import router as dns_router
+from nexora.recon.dns_recon import router as dns_router
 
 router = APIRouter()
 router.include_router(dns_router)
