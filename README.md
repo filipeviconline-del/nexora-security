@@ -33,7 +33,7 @@ O **Nexora Security** é um projeto experimental de assistência à análise de 
 ### 🧠 Assistente local
 
 - Conversas de apoio técnico com **Ollama**
-- Modelo configurável, incluindo `linuxsec-ai`
+- Modelo configurável, incluindo `nexora-ai`
 - Processamento local quando o modelo roda na própria máquina
 
 </td>
@@ -128,7 +128,7 @@ ollama run llama3.2 "Responda: NEXORA OK"
 curl -fsS http://127.0.0.1:11434/api/tags
 ```
 
-Para usar o modelo personalizado `linuxsec-ai`, será necessário o `Modelfile` do projeto completo.
+Para usar o modelo personalizado `nexora-ai`, será necessário o `Modelfile` do projeto completo.
 
 </details>
 
@@ -170,6 +170,12 @@ flowchart LR
 - [Ubuntu e Debian](docs/INSTALACAO-LINUX.md)
 - [Configuração completa do Ollama](docs/CONFIGURAR-OLLAMA.md)
 - **[Ferramentas: instalação e exemplos de uso](docs/FERRAMENTAS.md)**
+
+### Índice de leitura recomendado
+
+1. **[Instalação do sistema](docs/INSTALACAO-LINUX.md)** — escolha Ubuntu/Debian, [Kali](docs/INSTALACAO-KALI-VM.md) ou [Windows/WSL2](docs/INSTALACAO-WINDOWS.md).
+2. **[Configuração da IA local](docs/CONFIGURAR-OLLAMA.md)** — instale Ollama, escolha o modelo e teste o chat.
+3. **[Ferramentas de reconhecimento](docs/FERRAMENTAS.md)** — instale, confira versões e pratique em laboratório próprio.
 
 ## 📄 Licença
 
