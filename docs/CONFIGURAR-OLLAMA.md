@@ -80,16 +80,16 @@ ollama list
 ollama run llama3.2 "Responda apenas: NEXORA OK"
 ```
 
-O Nexora possui um `Modelfile` para o modelo personalizado `linuxsec-ai`. **Depois de baixar o código completo**, na raiz do projeto:
+Se a versão completa do Nexora incluir um `Modelfile` para personalizar o modelo `nexora-ai`, execute **depois de baixar o código completo**, na raiz do projeto:
 
 ```bash
 cd ~/nexora-security
-ollama create linuxsec-ai -f Modelfile
+ollama create nexora-ai -f Modelfile
 ollama list
-ollama run linuxsec-ai "Explique o que é reconhecimento passivo."
+ollama run nexora-ai "Explique o que é reconhecimento passivo."
 ```
 
-Se você ainda não criou `linuxsec-ai`, use `llama3.2` no passo seguinte. O modelo não é baixado junto com o código Git.
+Se o `Modelfile` não estiver disponível ou o modelo personalizado ainda não tiver sido criado, use `llama3.2` no passo seguinte. Os modelos não são distribuídos junto com o código Git.
 
 ## 4. Preparar o backend FastAPI
 
@@ -101,7 +101,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 export PATH="$HOME/go/bin:$PATH"
-export OLLAMA_MODEL=linuxsec-ai
+export OLLAMA_MODEL=llama3.2
 python -m uvicorn main:app --host 127.0.0.1 --port 8001
 ```
 
@@ -111,7 +111,7 @@ Caso tenha baixado somente `llama3.2`, substitua por:
 export OLLAMA_MODEL=llama3.2
 ```
 
-**Importante:** o código analisado utiliza `OLLAMA_MODEL` e o endereço do Ollama fixo em `http://127.0.0.1:11434`. Definir `OLLAMA_URL` não muda esse endereço nesta versão.
+**Importante:** `OLLAMA_MODEL` é a variável prevista no projeto original; confirme a implementação da versão publicada antes de depender dessa configuração. O endereço local esperado é `http://127.0.0.1:11434`. Definir `OLLAMA_URL` só terá efeito se o backend efetivamente ler essa variável.
 
 Não use `--reload` para disponibilização pública. Não altere o host para `0.0.0.0` sem proteção de rede e autenticação.
 
@@ -147,7 +147,7 @@ curl -fsS http://127.0.0.1:11434/api/chat \
 curl -I http://127.0.0.1:8001/chat
 ```
 
-O teste de API usa `llama3.2`; altere para `linuxsec-ai` se esse for o único modelo instalado. Alguns servidores respondem a `HEAD` com 405 mesmo quando `GET` funciona; nesse caso, teste:
+O teste de API usa `llama3.2`; altere para `nexora-ai` se esse for o único modelo instalado. Alguns servidores respondem a `HEAD` com 405 mesmo quando `GET` funciona; nesse caso, teste:
 
 ```bash
 curl -fsS -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8001/chat
@@ -159,7 +159,7 @@ curl -fsS -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8001/chat
 |---|---|---|
 | `ollama: command not found` | Ollama não instalado ou fora do PATH | `command -v ollama`; reinstale pela fonte oficial |
 | `Connection refused` na porta 11434 | Servidor Ollama parado | `systemctl status ollama` ou `ollama serve` |
-| `model not found` | Modelo solicitado não existe | `ollama list`; `ollama pull llama3.2` ou `ollama create linuxsec-ai -f Modelfile` |
+| `model not found` | Modelo solicitado não existe | `ollama list`; `ollama pull llama3.2` ou `ollama create nexora-ai -f Modelfile` |
 | Chat retorna 503 | Backend não consegue conversar com Ollama | Teste `/api/tags` e `/api/chat` na mesma VM/WSL |
 | Nexora não abre na porta 8001 | FastAPI parado, porta ocupada ou erro Python | Veja o terminal do Uvicorn; `ss -ltnp | grep 8001` |
 | VM muito lenta | CPU/RAM insuficientes para inferência | Aumente recursos se possível; teste um modelo menor |
