@@ -23,7 +23,7 @@ Documentação do **Nexora Security**, plataforma experimental de apoio à anál
 | [Instalação Windows](INSTALACAO-WINDOWS.md) | Windows 11 e WSL2 |
 | [Configuração do Ollama](CONFIGURAR-OLLAMA.md) | Modelo local e comunicação com FastAPI |
 
-**Antes de executar comandos de instalação**, confirme se os arquivos e scripts citados realmente existem no repositório. O código principal foi publicado, mas o instalador `scripts/install-linux.sh` ainda não foi confirmado no GitHub.
+**Instalação atual:** os guias foram atualizados para instalar diretamente pelo `requirements.txt`, com `python3 -m venv .venv`, sem depender de scripts `scripts/*.sh`. A importação do FastAPI e a interface do chat foram testadas em Ubuntu; os demais ambientes ainda exigem validação.
 
 ### 03 — Ferramentas e operação
 
