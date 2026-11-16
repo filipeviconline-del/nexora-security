@@ -98,6 +98,7 @@ Escolha o ambiente:
 | 🪟 Windows 11 / WSL2 | **[Instalar no Windows](docs/INSTALACAO-WINDOWS.md)** | Ubuntu dentro do Windows |
 | 🐧 Ubuntu / Debian | **[Instalar no Linux](docs/INSTALACAO-LINUX.md)** | Ambiente Linux local |
 | 🤖 Ollama + modelo de IA | **[Conectar o chat](docs/CONFIGURAR-OLLAMA.md)** | IA local e solução de problemas |
+| 🧰 Ferramentas de reconhecimento | **[Instalar e aprender a usar](docs/FERRAMENTAS.md)** | Linux, Kali e Windows/WSL2 |
 
 <details>
 <summary><strong>▶ Prévia dos comandos de inicialização (após publicação do código)</strong></summary>
@@ -168,6 +169,7 @@ flowchart LR
 - [Windows 11 com WSL2](docs/INSTALACAO-WINDOWS.md)
 - [Ubuntu e Debian](docs/INSTALACAO-LINUX.md)
 - [Configuração completa do Ollama](docs/CONFIGURAR-OLLAMA.md)
+- **[Ferramentas: instalação e exemplos de uso](docs/FERRAMENTAS.md)**
 
 ## 📄 Licença
 
