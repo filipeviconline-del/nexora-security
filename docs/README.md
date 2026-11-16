@@ -8,6 +8,7 @@ Bem-vindo à documentação técnica do **Nexora Security**. Use este índice pa
 
 | Objetivo | Documento |
 |---|---|
+| Planejar autenticação e licenças offline | **[Arquitetura de autenticação e licenciamento](ARQUITETURA-AUTENTICACAO-LICENCAS.md)** |
 | Consultar versão atual e próximas atualizações | **[Versões e roadmap](VERSOES-E-ROADMAP.md)** |
 | Instalar no Ubuntu ou Debian | [Instalação Linux](INSTALACAO-LINUX.md) |
 | Instalar no Kali / VirtualBox | [Instalação Kali](INSTALACAO-KALI-VM.md) |
