@@ -1,105 +1,112 @@
 # Instalação do Nexora Security no Windows 11 com WSL2
 
-O Nexora é uma aplicação Linux/Python. **Não há instalador .exe nativo** nesta versão. A opção recomendada no Windows é executar o backend dentro do Ubuntu no WSL2 e acessar o chat pelo navegador do Windows.
+O Nexora é uma aplicação Python/FastAPI executada em Linux. **Não há instalador `.exe` nativo nesta versão.** A abordagem documentada é Ubuntu no WSL2, com Ollama também dentro do Ubuntu para manter o endereço local `127.0.0.1:11434`.
 
-> **Estado atual:** os arquivos de código e scripts de instalação ainda não estão integralmente publicados neste repositório. Não prossiga com scripts ausentes.
+## 1. Instalar o WSL2
 
-## 1. Verificar os requisitos
-
-- Windows 11 atualizado, virtualização habilitada no firmware, espaço livre em disco e internet
-- Preferencialmente **8 GB de RAM disponíveis** para testes com Ollama 3B; menos RAM pode ficar lento
-- PowerShell aberto como **Administrador** somente para a instalação do WSL
-
-## 2. Instalar o Ubuntu no WSL2
-
-No PowerShell (Administrador):
+Abra **PowerShell como Administrador**:
 
 ```powershell
 wsl --install -d Ubuntu
 ```
 
-Reinicie o Windows caso seja solicitado. Abra **Ubuntu** no menu Iniciar e defina usuário e senha Linux.
-
-Confira a versão no PowerShell:
+Reinicie se solicitado. Abra o aplicativo Ubuntu e crie usuário e senha Linux. No PowerShell, confira:
 
 ```powershell
 wsl --list --verbose
 ```
 
-O Ubuntu deve aparecer com **VERSION 2**. Se necessário, consulte [Instalação oficial do WSL](https://learn.microsoft.com/windows/wsl/install).
+O Ubuntu deve estar na **VERSION 2**. Referência: [Microsoft — Instalar WSL](https://learn.microsoft.com/windows/wsl/install).
 
-## 3. Preparar o Ubuntu
+## 2. Preparar o Ubuntu no WSL2
 
-No terminal **Ubuntu**, e não no PowerShell:
+Os comandos a seguir são **Bash no terminal Ubuntu**, não PowerShell:
 
 ```bash
 sudo apt update
-sudo apt upgrade -y
 sudo apt install -y git curl ca-certificates python3 python3-venv python3-pip nmap whatweb dnsutils whois
 ```
 
-## 4. Baixar o projeto
+Trabalhe em `~/nexora-security`, não em `/mnt/c`, para evitar problemas de desempenho e permissões.
 
-O repositório é privado: use uma conta GitHub autorizada. Quando o código completo estiver publicado:
+## 3. Clonar o código atualizado
 
 ```bash
 cd ~
 git clone https://github.com/filipeviconline-del/nexora-security.git
 cd nexora-security
-ls -la
+ls main.py requirements.txt
+ls nexora/api nexora/core nexora/recon nexora/web
 ```
 
-Se não houver `main.py` e `scripts/install-linux.sh`, pare: o código ainda não foi publicado por completo.
+Se já houver clone, atualize-o com `git pull --ff-only origin main` sem descartar alterações locais.
 
-## 5. Instalar o Nexora
+## 4. Instalar o ambiente Python
 
 ```bash
-bash scripts/install-linux.sh
-bash scripts/check.sh
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pip check
+python -m compileall -q main.py nexora
+python -c "from main import app; print('NEXORA: IMPORTAÇÃO OK'); print('Rotas:', len(app.routes))"
 ```
 
-## 6. Instalar e conectar o Ollama
+O arquivo `requirements.txt` inclui `dnspython`, necessário para os módulos de DNS. Não execute `pip` globalmente com `sudo`.
 
-Use o guia completo [CONFIGURAR-OLLAMA.md](CONFIGURAR-OLLAMA.md). A configuração mais simples para esta versão é manter **Ollama e Nexora no mesmo Ubuntu WSL2**, pois o backend chama `127.0.0.1:11434`.
+## 5. Configurar Ollama no Ubuntu WSL2
 
-Depois de instalar o Ollama, caso não exista serviço systemd ativo, abra um segundo terminal Ubuntu e execute:
+Siga [CONFIGURAR-OLLAMA.md](CONFIGURAR-OLLAMA.md) para instalar Ollama da fonte oficial **dentro do WSL2**.
+
+Se `systemctl` não estiver disponível, abra **outro terminal Ubuntu** e execute:
 
 ```bash
 ollama serve
 ```
 
-No primeiro terminal:
+No terminal principal:
 
 ```bash
 ollama pull llama3.2
-cd ~/nexora-security
-# Opcional: execute somente se o projeto incluir um Modelfile
-# ollama create nexora-ai -f Modelfile
-bash scripts/start.sh
-```
-
-## 7. Abrir no navegador do Windows
-
-Acesse **http://localhost:8001/chat**.
-
-Se não abrir, no Ubuntu teste:
-
-```bash
-curl -fsS -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8001/chat
+ollama list
 curl -fsS http://127.0.0.1:11434/api/tags
 ```
 
-Se funcionar dentro do WSL mas não no navegador, investigue o encaminhamento de localhost e a configuração de rede do WSL2. Não abra a porta para a internet.
+Não inicie uma segunda instância se o serviço já estiver ativo. A instalação do Ollama somente no Windows pode exigir configuração de rede adicional, não coberta por este caminho simplificado.
 
-## 8. Diagnóstico
+## 6. Iniciar o Nexora
 
-- `wsl: command not found` no PowerShell: confirme atualização e privilégios do Windows.
-- Erro de virtualização: habilite a virtualização no BIOS/UEFI e recursos necessários do Windows.
-- `ollama: command not found`: instale o Ollama **dentro do Ubuntu WSL2**.
-- `model not found`: confira `ollama list` e `OLLAMA_MODEL`.
-- Chat não responde: verifique o Ollama na porta 11434 e o FastAPI na 8001.
-- Ferramentas de reconhecimento ausentes: verifique `bash scripts/check.sh` e [FERRAMENTAS.md](FERRAMENTAS.md).
+```bash
+cd ~/nexora-security
+source .venv/bin/activate
+export PATH="$HOME/go/bin:$PATH"
+export OLLAMA_MODEL=llama3.2
+python -m uvicorn main:app --host 127.0.0.1 --port 8001
+```
 
-## 9. Cuidados
+Definir `OLLAMA_MODEL` é importante: alguns módulos ainda têm `linuxsec-ai` como modelo padrão interno.
 
-Não execute scanners em ativos sem autorização. Não exponha as portas 8001/11434 publicamente. Evite armazenar código e ambientes virtuais em `/mnt/c` para não prejudicar desempenho e permissões; prefira `~/nexora-security` dentro do Ubuntu.
+No navegador **do Windows**, abra **http://localhost:8001/chat**. O encaminhamento de localhost do WSL2 geralmente permite esse acesso, mas pode variar conforme a configuração.
+
+## 7. Diagnóstico
+
+No Ubuntu WSL2:
+
+```bash
+curl -fsS -o /dev/null -w 'Chat HTTP: %{http_code}\n' http://127.0.0.1:8001/chat
+curl -fsS http://127.0.0.1:11434/api/tags
+```
+
+- **Erro de virtualização:** verifique os requisitos de virtualização e WSL2 na documentação Microsoft.
+- **`No module named dns`:** `source .venv/bin/activate` e `python -m pip install -r requirements.txt`.
+- **`model not found`:** `ollama pull llama3.2` e `export OLLAMA_MODEL=llama3.2`.
+- **FastAPI funciona no WSL, mas não no Windows:** investigue encaminhamento localhost do WSL2; não exponha o serviço na internet.
+- **Porta ocupada:** pare a instância anterior ou use `--port 8002`.
+- **Ferramenta externa ausente:** consulte [FERRAMENTAS.md](FERRAMENTAS.md).
+
+Mais detalhes em [Solução de problemas](SOLUCAO-DE-PROBLEMAS.md).
+
+## 8. Segurança
+
+Mantenha FastAPI e Ollama locais. O Nexora ainda não tem autenticação de usuários. Use ferramentas de reconhecimento somente em sistemas autorizados.
