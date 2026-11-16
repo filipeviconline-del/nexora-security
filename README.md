@@ -9,6 +9,7 @@ Plataforma experimental de assistência à análise de segurança com **FastAPI*
 - [Kali Linux / VirtualBox](docs/INSTALACAO-KALI-VM.md)
 - [Windows 11 / WSL2](docs/INSTALACAO-WINDOWS.md)
 - [Ubuntu / Debian](docs/INSTALACAO-LINUX.md)
+- **[Configurar Ollama e fazer o chat funcionar](docs/CONFIGURAR-OLLAMA.md)**
 
 Após baixar o código completo:
 
