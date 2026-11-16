@@ -89,3 +89,7 @@ app.include_router(registry_router)
 # Nexora read-only Ollama conversational chat
 from nexora.api.chat_assistant import router as chat_assistant_router
 app.include_router(chat_assistant_router)
+
+# Recon Center: painel para orquestração de ferramentas autorizadas
+from nexora.web.recon_center import router as recon_center_router
+app.include_router(recon_center_router)
