@@ -1,4 +1,4 @@
-"""LinuxSec Security Chat v5: approved, bounded tool orchestration."""
+"""Nexora Security Chat v5: approved, bounded tool orchestration."""
 import ipaddress
 import json
 import os
@@ -11,8 +11,8 @@ from urllib.parse import urlsplit
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from nmap_engine import LOCK, normalize_host, read_targets, resolve_dns, run_nmap, NmapRequest
-from dns_recon import query_records
+from nexora.api.nmap_engine import LOCK, normalize_host, read_targets, resolve_dns, run_nmap, NmapRequest
+from nexora.recon.dns_recon import query_records
 
 router = APIRouter(prefix='/tools/chat', tags=['Security Chat'])
 
@@ -81,11 +81,11 @@ def plan(body: PlanRequest):
             'notice':'Plano determinístico; a IA interpreta os resultados, mas não executa comandos livres.'}
 
 def whatweb(host, entry):
-    from whatweb_adapter import run_whatweb
+    from nexora.recon.adapters.whatweb_adapter import run_whatweb
     return run_whatweb(host, entry, approved_ip, safe_web_target)
 
 
-from report_engine import ai_summary
+from nexora.core.report_engine import ai_summary
 
 @router.post('/run')
 def run(body: RunRequest):
@@ -100,25 +100,25 @@ def run(body: RunRequest):
         raise HTTPException(status_code=400,detail='DNS e inspeção web requerem domínio cadastrado.')
     results = {}
     if 'gau' in body.tools:
-        from gau_adapter import run_gau
+        from nexora.recon.adapters.gau_adapter import run_gau
         results['gau'] = run_gau(host, is_ip, entry)
     if 'katana' in body.tools:
-        from katana_adapter import run_katana
+        from nexora.recon.adapters.katana_adapter import run_katana
         results['katana'] = run_katana(host, is_ip, entry, approved_ip)
     if 'httpx' in body.tools:
-        from httpx_adapter import run_httpx
+        from nexora.recon.adapters.httpx_adapter import run_httpx
         results['httpx'] = run_httpx(host, is_ip, entry, approved_ip)
     if 'dnsx_brute' in body.tools:
-        from dnsx_brute_adapter import run_dnsx_brute
+        from nexora.recon.adapters.dnsx_brute_adapter import run_dnsx_brute
         results['dnsx_brute'] = run_dnsx_brute(host, is_ip, entry)
     if 'dnsx' in body.tools:
-        from dnsx_adapter import run_dnsx
+        from nexora.recon.adapters.dnsx_adapter import run_dnsx
         results['dnsx'] = run_dnsx(host, is_ip, entry)
     if 'subfinder' in body.tools:
-        from subfinder_adapter import run_subfinder
+        from nexora.recon.adapters.subfinder_adapter import run_subfinder
         results['subfinder'] = run_subfinder(host, is_ip, entry)
     if 'amass' in body.tools:
-        from amass_adapter import run_amass
+        from nexora.recon.adapters.amass_adapter import run_amass
         results['amass'] = run_amass(host, is_ip, entry)
     if 'dns' in body.tools:
         results['dns'] = query_records(host)

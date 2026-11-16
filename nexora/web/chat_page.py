@@ -1,4 +1,4 @@
-# LINUXSEC_REPORT_V2
+# NEXORA_REPORT_V2
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
 router = APIRouter()
@@ -8,18 +8,18 @@ def chat():
 HTML = r'''<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nexora Security | Security Intelligence</title><style>
 :root{color-scheme:dark;--bg:#0b1220;--panel:#142a3b;--line:#2b4b5c;--text:#e6f7f7;--muted:#9ab8c4;--green:#35e4a0;--cyan:#00d9d0}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui}.app{max-width:1100px;margin:auto;padding:18px;min-height:100vh;display:flex;flex-direction:column}header{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--line);padding-bottom:14px;flex-wrap:wrap}header strong{color:var(--cyan);font-size:22px}.muted{color:var(--muted);font-size:13px}.feed{flex:1;min-height:220px;padding:16px 0}.msg{background:var(--panel);border:1px solid var(--line);padding:16px;border-radius:14px;margin:12px 0;white-space:pre-wrap;overflow-wrap:anywhere}.user{margin-left:14%;background:#183a43}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}input,textarea,select{background:#081725;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:11px;font:inherit;max-width:100%}textarea{width:100%;min-height:65px;resize:vertical}button{border:0;border-radius:8px;background:var(--green);color:#092021;padding:11px 15px;font-weight:700;cursor:pointer}button.secondary{background:#264b5d;color:var(--text)}button.danger{background:#783b43;color:white}button:disabled{opacity:.5}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.row>*{min-width:0}.grow{flex:1}.composer{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:14px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#081725;padding:12px;border-radius:8px;max-height:290px;overflow:auto;font-size:12px}.chart{display:grid;gap:10px}.barrow{display:grid;grid-template-columns:110px 1fr 40px;gap:9px;align-items:center}.track{height:16px;background:#091724;border-radius:6px;overflow:hidden}.fill{height:100%;background:var(--cyan)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.metric{font-size:26px;font-weight:800}.hidden{display:none!important}.status{color:#ffb454}.notice{border-left:3px solid var(--cyan);padding:9px 12px;color:var(--muted)}label{font-size:13px;color:var(--muted)}@media(max-width:640px){.grid{grid-template-columns:1fr 1fr}.barrow{grid-template-columns:90px 1fr 30px}.app{padding:12px}}
 
-/* LinuxSec evidence reader v1 */
+/* Nexora evidence reader v1 */
 .evidence{border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0;background:var(--panel)}
 .evidence h3{margin:0 0 12px;color:var(--cyan)}.tool-block{border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden;background:#0d2030}
 .tool-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:12px;background:#18384a;flex-wrap:wrap}.tool-head strong{font-size:16px}.pill{border-radius:20px;padding:4px 9px;font-size:12px;background:#294a56;color:#e6f7f7}
 .fields{padding:12px;display:grid;gap:8px}.field{display:grid;grid-template-columns:minmax(110px,180px) minmax(0,1fr);gap:10px;border-bottom:1px solid #274454;padding-bottom:8px}.field-name{color:var(--muted);overflow-wrap:anywhere}.field-value{white-space:pre-wrap;overflow-wrap:anywhere}
 .lines{margin:10px 12px 14px;border:1px solid #294758;border-radius:8px;overflow:auto;max-height:420px;background:#081725}.line{display:grid;grid-template-columns:48px minmax(0,1fr);border-bottom:1px solid #182d3d;font:13px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}.line-no{color:#7fabb9;text-align:right;padding:4px 10px;border-right:1px solid #294758;user-select:none}.line-text{white-space:pre-wrap;overflow-wrap:anywhere;padding:4px 10px}.section-label{margin:14px 12px 7px;color:var(--cyan);font-weight:700}.evidence details{margin:10px 12px}.evidence summary{cursor:pointer;color:var(--cyan)}.evidence .raw{max-height:260px}.empty-note{padding:10px 12px;color:var(--muted)}
 @media(max-width:640px){.field{grid-template-columns:1fr;gap:3px}.evidence{padding:10px}}
-/* LinuxSec report v2 */
+/* Nexora report v2 */
 .ls-report{background:#0e2030;border:1px solid #315468;border-radius:16px;padding:20px;margin:18px 0;box-shadow:0 12px 35px #0003}.ls-report h2{margin:0;color:#e6f7f7}.ls-sub{color:#9ab8c4;margin:6px 0 18px}.ls-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:15px 0}.ls-stat{background:#142a3b;border:1px solid #2b4b5c;border-radius:10px;padding:14px}.ls-stat b{display:block;font-size:26px;color:#35e4a0}.ls-stat span{color:#b5ccd4;font-size:12px}.ls-tabs{display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid #315468;padding-bottom:12px;margin:18px 0}.ls-tabs button{background:#1c3949;color:#e6f7f7;font-weight:600;padding:9px 12px}.ls-tabs button[aria-selected=true]{background:#35e4a0;color:#071d20}.ls-pane[hidden]{display:none}.ls-table{width:100%;border-collapse:collapse;font-size:13px}.ls-table th,.ls-table td{padding:9px;border-bottom:1px solid #294858;text-align:left;overflow-wrap:anywhere}.ls-table th{color:#a7c6d1}.ls-badge{display:inline-block;background:#274b5d;border-radius:20px;padding:3px 8px;font-size:12px}.ls-badge.open{color:#35e4a0}.ls-badge.filtered{color:#ffb454}.ls-warning{border-left:3px solid #ffb454;background:#292b32;padding:12px;margin:12px 0}.ls-ai{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65;background:#081725;border:1px solid #294858;border-radius:10px;padding:18px;max-height:750px;overflow:auto}.ls-tools{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.ls-filter{width:100%;margin:12px 0}.ls-report details{margin:12px 0}.ls-report summary{cursor:pointer;color:#00d9d0}.ls-report pre{max-height:450px}@media(max-width:700px){.ls-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.ls-report{padding:12px}.ls-table{font-size:12px}}
 
 
-/* LINUXSEC_CHAT_DESIGN_V1 */
+/* NEXORA_CHAT_DESIGN_V1 */
 .feed{display:flex;flex-direction:column;gap:16px;padding:24px 0 36px}
 .ls-chat-message{max-width:94%;width:fit-content;min-width:min(340px,100%);border:1px solid #2a4a5c;border-radius:18px;background:linear-gradient(155deg,#172d3d,#102333);padding:17px 20px;box-shadow:0 10px 28px #0002;overflow-wrap:anywhere}
 .ls-chat-message.is-user{align-self:flex-end;max-width:82%;background:#173b43;border-color:#30686a}
@@ -64,7 +64,7 @@ html{scroll-behavior:smooth}body{background:radial-gradient(ellipse 850px 450px 
 <div class="feed" id="feed"><div class="msg">Olá! Escolha um alvo cadastrado e descreva a análise desejada. Prepararei um plano e só executarei as verificações após sua aprovação. Você poderá pedir gráficos e pesquisar evidências usando grep: ssh, nginx.</div></div>
 <div class="composer"><div class="row"><label for="target">Alvo autorizado</label><select id="target" class="grow"></select><button class="secondary" id="refresh">Atualizar</button></div><textarea id="message" maxlength="10000" placeholder="Analise DNS, portas e serviços deste alvo.">Analise a superfície de exposição, explique os resultados e gere gráficos.</textarea><div class="row"><button class="secondary" id="askAI">Conversar com IA</button><button id="plan">Preparar plano</button><button id="approve" class="hidden">Aprovar e executar</button><button id="charts" class="secondary" disabled>Gerar gráficos</button><span id="status" class="status" role="status"></span></div><p class="muted">Os gráficos usam dados reais coletados; a IA interpreta os achados, mas não inventa medições. As ferramentas dependem de instalação e autorização; resultados descobertos não ampliam o escopo.</p></div></div>
 <script>
-const $=id=>document.getElementById(id);let currentPlan=null,lastResult=null;function el(tag,cls,txt){const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n}/* LINUXSEC_CHAT_DESIGN_V1 — renderização segura de mensagens */
+const $=id=>document.getElementById(id);let currentPlan=null,lastResult=null;function el(tag,cls,txt){const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n}/* NEXORA_CHAT_DESIGN_V1 — renderização segura de mensagens */
 function lsChatText(parent,text){
  const lines=String(text??'').split(/\r?\n/), fragment=document.createDocumentFragment();let paragraph=null;
  const flush=()=>{if(paragraph){fragment.append(paragraph);paragraph=null}};
@@ -90,7 +90,7 @@ function lsChatInventory(parent,text){
 }
 function bubble(txt,who='assistant'){
  const wrap=el('article','ls-chat-message '+(who==='user'?'is-user':'is-assistant'));
- const head=el('div','ls-chat-message-head');head.append(el('span','ls-chat-avatar',who==='user'?'EU':'AI'));head.append(el('span','ls-chat-speaker',who==='user'?'Você':'LinuxSec AI'));
+ const head=el('div','ls-chat-message-head');head.append(el('span','ls-chat-avatar',who==='user'?'EU':'AI'));head.append(el('span','ls-chat-speaker',who==='user'?'Você':'Nexora Security'));
  const body=el('div','ls-chat-body');if(who!=='user'&&!lsChatInventory(body,txt))lsChatText(body,txt);else if(who==='user')lsChatText(body,txt);
  const actions=el('div','ls-chat-actions');const copy=el('button','secondary ls-chat-copy','Copiar');copy.type='button';copy.onclick=()=>navigator.clipboard.writeText(String(txt)).then(()=>copy.textContent='Copiado!').catch(()=>copy.textContent='Falha ao copiar');actions.append(copy);
  wrap.append(head,body,actions);$('feed').append(wrap);wrap.scrollIntoView({block:'nearest'});return wrap
@@ -105,7 +105,7 @@ $('askAI').onclick=async()=>{
  bubble(message,'user');$('askAI').disabled=true;$('status').textContent='Consultando assistente...';
  try{
   const answer=await req('/tools/chat/ask','POST',{message,history:lsChatHistory.slice(-6)});
-  bubble(answer.text+'\n\nFonte: '+(answer.source==='local_registry'?'inventário local':'Ollama '+answer.model));
+  bubble(answer.text);
   lsChatHistory.push({role:'user',content:message},{role:'assistant',content:answer.text});
   lsChatHistory=lsChatHistory.slice(-8);
  }catch(e){bubble('Erro no assistente: '+e.message)}
@@ -188,7 +188,7 @@ async function maybeGrepFromChat(){
  return true;
 }
  $('charts').onclick=drawCharts;targets();
-// LINUXSEC_REPORT_V2: render from tool results; untrusted strings only through textContent.
+// NEXORA_REPORT_V2: render from tool results; untrusted strings only through textContent.
 function lsFacts(result){
  const facts=result.ai?.facts;
  if(facts&&Array.isArray(facts.ports))return facts;

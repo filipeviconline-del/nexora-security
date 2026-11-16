@@ -1,7 +1,7 @@
 # LINUXSEC_GUARD_V2
 """LinuxSec v8: evidence-grounded local Ollama reporting; no tool execution."""
 import json
-from evidence_guard import extract
+from nexora.core.evidence_guard import extract
 import os
 import urllib.error
 import urllib.request
