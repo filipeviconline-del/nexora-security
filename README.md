@@ -6,7 +6,8 @@
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=20&duration=3200&pause=900&color=00D9D0&center=true&vCenter=true&width=750&lines=Observe.+Analise.+Documente.;Reconhecimento+com+escopo+autorizado;FastAPI+%2B+Ollama+%2B+Linux;Sua+IA+local.+Seu+controle.)](https://git.io/typing-svg)
 
-![Status](https://img.shields.io/badge/STATUS-DOCUMENTA%C3%87%C3%83O_EM_PREPARA%C3%87%C3%83O-FFB454?style=for-the-badge)
+![Versão](https://img.shields.io/badge/VERS%C3%83O-v0.1.0--alpha-00D9D0?style=for-the-badge)
+![Status](https://img.shields.io/badge/STATUS-PR%C3%89--LAN%C3%87AMENTO-FFB454?style=for-the-badge)
 ![Python](https://img.shields.io/badge/PYTHON-FASTAPI-142A3B?style=for-the-badge&logo=python&logoColor=00D9D0)
 ![IA](https://img.shields.io/badge/IA-OLLAMA_LOCAL-142A3B?style=for-the-badge)
 ![Ambiente](https://img.shields.io/badge/AMBIENTE-LINUX_%7C_WSL2-142A3B?style=for-the-badge&logo=linux&logoColor=35E4A0)
@@ -20,6 +21,8 @@
 ---
 
 > [!IMPORTANT]
+> **Versão atual do repositório: v0.1.0-alpha (documentação).** Futuras atualizações estão planejadas; ainda não existe uma release instalável validada. Consulte o [histórico de versões e roadmap](docs/VERSOES-E-ROADMAP.md).
+>
 > **Publicação em andamento.** Este repositório contém a documentação inicial, mas **ainda não inclui o código-fonte completo nem os scripts de instalação**. Os procedimentos abaixo são uma referência para quando esses arquivos forem publicados e validados. O projeto é um protótipo local, não um serviço pronto para produção.
 
 ## ✦ Visão geral
@@ -149,6 +152,9 @@ flowchart LR
 
 ## 🗺️ Roadmap
 
+**Versão atual:** `v0.1.0-alpha` — etapa de documentação. **Próximas versões planejadas:** `v0.2.0-alpha` (código e scripts), `v0.3.0-beta` (validação das integrações), `v0.4.0-beta` (diagnóstico e testes) e `v1.0.0` (estável). [Ver planejamento completo](docs/VERSOES-E-ROADMAP.md).
+
+
 - [x] Criar repositório privado e documentação inicial
 - [x] Documentar instalação em Kali, Ubuntu e Windows/WSL2
 - [x] Documentar integração do Ollama
@@ -176,6 +182,7 @@ Se o chat não responder, uma ferramenta não iniciar ou surgir um erro de depen
 ## 📚 Documentação
 
 - **[Central de documentação](docs/README.md)**
+- **[Versão atual e próximas atualizações](docs/VERSOES-E-ROADMAP.md)**
 - [Kali Linux no VirtualBox](docs/INSTALACAO-KALI-VM.md)
 - [Windows 11 com WSL2](docs/INSTALACAO-WINDOWS.md)
 - [Ubuntu e Debian](docs/INSTALACAO-LINUX.md)
