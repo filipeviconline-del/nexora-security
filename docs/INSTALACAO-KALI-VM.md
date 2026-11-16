@@ -52,7 +52,8 @@ Siga o guia [CONFIGURAR-OLLAMA.md](CONFIGURAR-OLLAMA.md). Resumo:
 ```bash
 # Depois de instalar e iniciar o Ollama:
 ollama pull llama3.2
-ollama create linuxsec-ai -f Modelfile
+# Opcional: execute somente se o projeto incluir um Modelfile
+# ollama create nexora-ai -f Modelfile
 ollama list
 ```
 
