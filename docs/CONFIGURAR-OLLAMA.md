@@ -2,14 +2,14 @@
 
 Este guia explica como habilitar o botão **Conversar com IA** do Nexora Security em **Kali Linux**, **Ubuntu**, **VirtualBox** e **Windows 11 com WSL2**. O Nexora usa **FastAPI** em `127.0.0.1:8001` e chama a API local do **Ollama** em `127.0.0.1:11434`.
 
-> **Estado atual:** o repositório contém inicialmente a documentação; os arquivos do aplicativo e scripts de instalação ainda precisam ser publicados. Os comandos abaixo pressupõem que o código completo do Nexora já esteja presente. Não exponha as portas 8001/11434 à internet.
+> **Estado atual:** o código principal está publicado na estrutura `nexora/`. A instalação é manual por ambiente virtual; não depende de scripts `scripts/*.sh`. Não exponha as portas 8001/11434 à internet.
 
 ## 1. Pré-requisitos
 
 - Kali Linux ou Ubuntu atualizado (no VirtualBox ou computador físico); no Windows 11, Ubuntu instalado no WSL2
 - Internet para baixar o modelo, Git e Python 3 com venv
 - Recomenda-se 8 GB de RAM para testar o modelo Llama 3.2 3B em CPU; com menos memória pode ficar lento ou falhar
-- Projeto Nexora Security completo, com `main.py`, `chat_assistant.py`, `Modelfile`, `requirements.txt`
+- Projeto Nexora Security clonado, com `main.py`, `nexora/api/chat_assistant.py`, `Modelfile` e `requirements.txt`
 
 ### No Kali/Ubuntu
 
@@ -80,7 +80,7 @@ ollama list
 ollama run llama3.2 "Responda apenas: NEXORA OK"
 ```
 
-Se a versão completa do Nexora incluir um `Modelfile` para personalizar o modelo `nexora-ai`, execute **depois de baixar o código completo**, na raiz do projeto:
+O repositório inclui um `Modelfile`. Se desejar criar um modelo personalizado `nexora-ai`, execute na raiz do projeto:
 
 ```bash
 cd ~/nexora-security
@@ -89,7 +89,7 @@ ollama list
 ollama run nexora-ai "Explique o que é reconhecimento passivo."
 ```
 
-Se o `Modelfile` não estiver disponível ou o modelo personalizado ainda não tiver sido criado, use `llama3.2` no passo seguinte. Os modelos não são distribuídos junto com o código Git.
+Se a criação do modelo personalizado falhar, mantenha `llama3.2`. Os modelos não são distribuídos junto com o código Git. **Atenção:** alguns módulos ainda têm `linuxsec-ai` como modelo padrão interno, portanto defina `OLLAMA_MODEL` explicitamente para o modelo instalado.
 
 ## 4. Preparar o backend FastAPI
 
@@ -100,18 +100,15 @@ cd ~/nexora-security
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
+python -c "from main import app; print('NEXORA: IMPORTAÇÃO OK')"
 export PATH="$HOME/go/bin:$PATH"
 export OLLAMA_MODEL=llama3.2
 python -m uvicorn main:app --host 127.0.0.1 --port 8001
 ```
 
-Caso tenha baixado somente `llama3.2`, substitua por:
+Se tiver criado e testado o modelo personalizado, poderá usar `export OLLAMA_MODEL=nexora-ai` no lugar de `llama3.2`.
 
-```bash
-export OLLAMA_MODEL=llama3.2
-```
-
-**Importante:** `OLLAMA_MODEL` é a variável prevista no projeto original; confirme a implementação da versão publicada antes de depender dessa configuração. O endereço local esperado é `http://127.0.0.1:11434`. Definir `OLLAMA_URL` só terá efeito se o backend efetivamente ler essa variável.
+**Importante:** `OLLAMA_MODEL` é lida pelo backend publicado. Sempre defina a variável na sessão em que inicia o Uvicorn. O endereço local esperado é `http://127.0.0.1:11434`. Definir `OLLAMA_URL` só terá efeito se o backend efetivamente ler essa variável.
 
 Não use `--reload` para disponibilização pública. Não altere o host para `0.0.0.0` sem proteção de rede e autenticação.
 
