@@ -8,6 +8,7 @@ Bem-vindo à documentação técnica do **Nexora Security**. Use este índice pa
 
 | Objetivo | Documento |
 |---|---|
+| Consultar versão atual e próximas atualizações | **[Versões e roadmap](VERSOES-E-ROADMAP.md)** |
 | Instalar no Ubuntu ou Debian | [Instalação Linux](INSTALACAO-LINUX.md) |
 | Instalar no Kali / VirtualBox | [Instalação Kali](INSTALACAO-KALI-VM.md) |
 | Instalar no Windows 11 / WSL2 | [Instalação Windows](INSTALACAO-WINDOWS.md) |
