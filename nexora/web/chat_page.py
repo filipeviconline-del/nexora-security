@@ -105,7 +105,7 @@ $('askAI').onclick=async()=>{
  bubble(message,'user');$('askAI').disabled=true;$('status').textContent='Consultando assistente...';
  try{
   const answer=await req('/tools/chat/ask','POST',{message,history:lsChatHistory.slice(-6)});
-  bubble(answer.text+'\n\nFonte: '+(answer.source==='local_registry'?'inventário local':'Ollama '+answer.model));
+  bubble(answer.text);
   lsChatHistory.push({role:'user',content:message},{role:'assistant',content:answer.text});
   lsChatHistory=lsChatHistory.slice(-8);
  }catch(e){bubble('Erro no assistente: '+e.message)}
