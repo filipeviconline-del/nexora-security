@@ -1,0 +1,27 @@
+
+# Ambiente local
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+
+# Dados privados
+authorized_targets.json
+allowed_targets.txt
+*.db
+*.sqlite3
+
+# Backups e arquivos temporários
+backups/
+backup-*/
+*.backup
+*.backup-*
+*.bak-*
+*.pre-security-engine
+
+# Logs
+*.log
+logs/
+reports/
